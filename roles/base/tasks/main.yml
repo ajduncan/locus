@@ -1,0 +1,17 @@
+- name: set locale to {{ locale }}
+  action: command /usr/sbin/update-locale LANG={{ locale }} LC_ALL={{ locale }}
+  sudo: yes
+
+- name: Update apt repository
+  apt: update_cache=yes
+
+- name: Upgrade system packages
+  apt: upgrade=full
+
+- name: Install system dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - git
+    - tar
+    - unzip
