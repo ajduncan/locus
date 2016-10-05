@@ -29,7 +29,7 @@ A set of common ansible plays for servers.
 1. First ensure you have the proper requirements (ansible on the host) and the
 proper virtual environment:
 
-  $ cd /path/to/devops/marksman-devops
+  $ cd /path/to/devops/locus
   $ source .env2/bin/activate
 
 2. Provided you have a hosts file and ansible installed:
