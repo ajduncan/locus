@@ -2,8 +2,21 @@
   become: yes
   remote_user: root
   gather_facts: no
+  vars_files:
+    - ../vars.yml
+    - ../secrets.yml
 
-tasks:
-  - name: upgrade packages with updates
-    become: yes
-    apt: upgrade=safe update_cache=yes
+  tasks:
+    - name: Update apt repository
+      apt: update_cache=yes
+
+    - name: Upgrade system packages
+      apt: upgrade=full
+
+    - name: Install system dependencies
+      apt: name={{ item }} state=present
+      with_items:
+        - vim
+        - git
+        - tar
+        - unzip

@@ -2,5 +2,6 @@
   become: yes
   vars_files:
     - vars.yml
+    - secrets.yml
   roles:
     - base
