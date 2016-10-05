@@ -54,3 +54,21 @@ proper virtual environment:
     ansible-playbook -i dev_hosts playbook.yaml
 
 ## Vault ##
+
+Suppose you have an encrypted secrets.yml file, and a host file which references
+username and password pairs (for become root work) that looks like:
+
+neuro ansible_ssh_host=neuro ansible_user="{{ neuro['username'] }}" ansible_connection=ssh ansible_become_user=root ansible_become_pass="{{ neuro['password'] }}"
+
+You can edit and encrypt an example secrets.yml file with the variables above;
+
+neuro:
+  username: 'foo'
+  password: 'bar'
+
+To run a playbook that references encrypted files, if you don't want to store
+the vault password on disk, use:
+
+  $ ansible-playbook -i hosts -v ./playbooks/update_host.yml --ask-vault-pass
+
+and keep the vault password (for example) in LastPass or OnePassword
