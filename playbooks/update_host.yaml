@@ -1,0 +1,9 @@
+- hosts: all
+  become: yes
+  remote_user: root
+  gather_facts: no
+
+tasks:
+  - name: upgrade packages with updates
+    become: yes
+    apt: upgrade=safe update_cache=yes
