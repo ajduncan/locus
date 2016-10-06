@@ -1,0 +1,30 @@
+- hosts: all
+  become: yes
+  remote_user: root
+  gather_facts: yes
+  vars_files:
+    - ../vars.yml
+    - ../secrets.yml
+
+  tasks:
+
+    - name: Update apt repository
+      apt: update_cache=yes
+
+    - name: Perform a dist upgrade.
+      command: do-release-upgrade -d -f DistUpgradeViewNonInteractive
+      async: 3600
+      poll: 30
+
+    - name: Check if a reboot is required
+      register: file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Restart the host
+      shell: sleep 2 && /sbin/shutdown -r now "Ansible restart host"
+      when: file.stat.exists == true
+
+    - name: Wait for the host to come back online
+      local_action: wait_for host={{ ansible_eth0["ipv4"]["address"] }} port=22 state=started delay=30 timeout=60
+      become: false
+      when: file.stat.exists == true
