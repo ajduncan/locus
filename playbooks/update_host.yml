@@ -1,17 +1,21 @@
 - hosts: all
   become: yes
   remote_user: root
-  gather_facts: no
+  gather_facts: yes
   vars_files:
     - ../vars.yml
     - ../secrets.yml
 
   tasks:
-    - name: Update apt repository
-      apt: update_cache=yes
-
-    - name: Upgrade system packages
-      apt: upgrade=full
+    - name: Update apt repository and perform a dist upgrade.
+      apt: >
+        update_cache=yes
+        cache_valid_time=1200
+        upgrade=full
+      when: >
+        ansible_distribution == 'Debian'
+        or
+        ansible_distribution == 'Ubuntu'
 
     - name: Install system dependencies
       apt: name={{ item }} state=present
