@@ -7,11 +7,14 @@
     - ../secrets.yml
 
   tasks:
-    - name: Update apt repository and perform a full upgrade.
-      apt: >
-        update_cache=yes
-        cache_valid_time=1200
-        upgrade=full
+    - name: Install system dependencies
+      apt: name={{ item }} state=present
+      with_items:
+        - aptitude
+        - vim
+        - git
+        - tar
+        - unzip
       when: >
         ansible_distribution == 'Debian'
         or
