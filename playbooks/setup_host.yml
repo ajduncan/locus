@@ -15,6 +15,7 @@
         - git
         - tar
         - unzip
+        - fail2ban
       when: >
         ansible_distribution == 'Debian'
         or

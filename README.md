@@ -66,6 +66,12 @@ neuro:
   username: 'foo'
   password: 'bar'
 
+To edit the secrets.yml file, just use:
+
+  $ ansible-vault edit secrets.yml
+
+Which should prompt for your vault password.
+
 To run a playbook that references encrypted files, if you don't want to store
 the vault password on disk, use:
 
